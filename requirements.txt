@@ -1,3 +1,4 @@
 flask
 g4f
 gunicorn
+curl_cffi
