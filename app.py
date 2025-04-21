@@ -55,7 +55,7 @@ def process_messages(frontend_model, messages):
 
 @app.route("/v1/models", methods=["GET"])
 def get_models():
-    model_json_path = os.path.join(os.path.dirname(__file__), "model.json")
+    model_json_path = os.path.join(os.path.dirname(__file__), "models.json")
     return send_file(model_json_path, mimetype="application/json")
 
 @app.route("/v1/chat/completions", methods=["POST"])
