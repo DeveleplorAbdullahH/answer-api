@@ -1,0 +1,46 @@
+{
+    "object": "list",
+    "data": [
+      {
+        "id": "botintel-v3",
+        "object": "model",
+        "created": 1731028323,
+        "owned_by": "BotIntel",
+        "type": "v1/chat/completions",
+        "support_vision": false,
+        "free": true,
+        "description": "BotIntel-V3: Versatile LLM for general tasks, creative writing, and conversation."
+      },
+      {
+        "id": "botintel-pro",
+        "object": "model",
+        "created": 1731028323,
+        "owned_by": "BotIntel",
+        "type": "v1/chat/completions",
+        "support_vision": false,
+        "free": true,
+        "description": "BotIntel-Pro: Specialized for advanced reasoning, STEM, and technical problem solving."
+      },
+      {
+        "id": "botintel-coder",
+        "object": "model",
+        "created": 1731028323,
+        "owned_by": "BotIntel",
+        "type": "v1/chat/completions",
+        "support_vision": false,
+        "free": true,
+        "description": "BotIntel-Coder: Advanced AI software engineer and programming assistant."
+      },
+      {
+        "id": "abuai-v3-latest",
+        "object": "model",
+        "created": 1731028323,
+        "owned_by": "BotIntel",
+        "type": "v1/chat/completions",
+        "support_vision": false,
+        "free": true,
+        "description": "ABU AI: Multilingual, detailed, and expressive assistant powered by botintel-v3.",
+        "backend": "Copilot"
+      }
+    ]
+  }
