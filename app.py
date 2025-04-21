@@ -1,5 +1,6 @@
 from g4f.client import Client
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
+import os
 from g4f.Provider import Copilot, Glider
 
 app = Flask(__name__)
@@ -51,6 +52,11 @@ def process_messages(frontend_model, messages):
     filtered = [msg for msg in messages if msg.get("role") != "system"]
     filtered.insert(0, {"role": "system", "content": system_prompt})
     return filtered
+
+@app.route("/v1/models", methods=["GET"])
+def get_models():
+    model_json_path = os.path.join(os.path.dirname(__file__), "model.json")
+    return send_file(model_json_path, mimetype="application/json")
 
 @app.route("/v1/chat/completions", methods=["POST"])
 def chat_completions():
