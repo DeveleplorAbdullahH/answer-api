@@ -1,6 +1,6 @@
 from g4f.client import Client
 from flask import Flask, request, jsonify
-from g4f.Provider import Copilot, Glider
+from g4f.Provider import HarProvider, PollinationsAI
 import asyncio
 from functools import wraps
 
@@ -8,17 +8,17 @@ app = Flask(__name__)
 client = Client()
 
 MODEL_MAPPING = {
-    "botintel-v3": "Copilot",
-    "botintel-pro": "o1",
-    "botintel-coder": "deepseek-ai/DeepSeek-R1",
-    "abuai-v3-latest": "Copilot"
+    "botintel-v3": "chatgpt-4o-latest-20250326",
+    "botintel-pro": "o3-2025-04-16",
+    "botintel-coder": "claude-3-7-sonnet-20250219-thinking-32k",
+    "abuai-v3-latest": "chatgpt-4o-latest-20250326"
 }
 
 PROVIDER_MAPPING = {
-    "botintel-v3": Copilot,
-    "botintel-pro": Copilot,
-    "botintel-coder": Glider,
-    "abuai-v3-latest": Copilot
+    "botintel-v3": HarProvider,
+    "botintel-pro": HarProvider,
+    "botintel-coder": HarProvider,
+    "abuai-v3-latest": HarProvider
 }
 
 SYSTEM_PROMPTS = {
