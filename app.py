@@ -22,7 +22,6 @@ PROVIDER_MAPPING = {
 }
 
 def process_messages(messages):
-    # Maintain full history except system messages
     return [msg for msg in messages if msg['role'] not in ['system']]
 
 @app.route('/v1/chat/completions', methods=['POST'])
@@ -32,10 +31,7 @@ def chat_completions():
     model_name = data.get('model', 'botintel-v3')
     stream = data.get('stream', False)
 
-    # Process message history
     processed_messages = process_messages(messages)
-    
-    # Get backend configuration
     backend_model = MODEL_MAPPING.get(model_name, "chatgpt-4o-latest-20250326")
     provider = PROVIDER_MAPPING.get(model_name, HarProvider)
 
@@ -54,7 +50,7 @@ def chat_completions():
                     content = chunk.choices[0].delta.content
                     if content:
                         full_response.append(content)
-                        yield f"data: {json.dumps({
+                        data = json.dumps({
                             'id': f'chatcmpl-{int(time.time())}',
                             'object': 'chat.completion.chunk',
                             'created': int(time.time()),
@@ -64,10 +60,11 @@ def chat_completions():
                                 'index': 0,
                                 'finish_reason': None
                             }]
-                        })}\n\n"
+                        })
+                        yield f"data: {data}\n\n"
                 
-                # Final completion message
-                yield f"data: {json.dumps({
+                # Send final completion event
+                data = json.dumps({
                     'id': f'chatcmpl-{int(time.time())}',
                     'object': 'chat.completion.chunk',
                     'created': int(time.time()),
@@ -77,7 +74,8 @@ def chat_completions():
                         'index': 0,
                         'finish_reason': 'stop'
                     }]
-                })}\n\n"
+                })
+                yield f"data: {data}\n\n"
                 yield "data: [DONE]\n\n"
 
             return Response(generate(), mimetype='text/event-stream')
