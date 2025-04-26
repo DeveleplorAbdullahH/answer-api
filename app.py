@@ -22,17 +22,6 @@ PROVIDER_MAPPING = {
     "abuai-v3-latest": HarProvider
 }
 
-def async_to_sync(f):
-    @wraps(f)
-    def wrapper(*args, **kwargs):
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        try:
-            return loop.run_until_complete(f(*args, **kwargs))
-        finally:
-            loop.close()
-    return wrapper
-
 def process_messages(messages):
     return [msg for msg in messages if msg.get("role") != "system"]
 
@@ -42,8 +31,7 @@ def get_models():
     return send_file(model_json_path, mimetype="application/json")
 
 @app.route("/v1/chat/completions", methods=["POST"])
-@async_to_sync
-async def chat_completions():
+def chat_completions():
     data = request.get_json()
     frontend_model = data.get("model", "botintel-v3")
     original_messages = data.get("messages", [])
@@ -53,10 +41,9 @@ async def chat_completions():
     provider = PROVIDER_MAPPING.get(frontend_model, HarProvider)
 
     try:
-        response = await client.chat.completions.create(
+        response = client.chat.completions.create(
             model=backend_model,
             messages=messages,
-            web_search=False,
             provider=provider,
         )
 
