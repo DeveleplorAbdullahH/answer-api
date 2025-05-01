@@ -77,7 +77,6 @@ In short, you are a complete, intelligent, and adaptive AI assistant designed to
 
 def process_messages(frontend_model, messages):
     system_prompt = SYSTEM_PROMPTS.get(frontend_model, "")
-    # Remove existing system messages and add our own
     filtered = [msg for msg in messages if msg.get("role") != "system"]
     filtered.insert(0, {"role": "system", "content": system_prompt})
     return filtered
@@ -106,17 +105,18 @@ def chat_completions():
                 for chunk in response:
                     content = chunk.choices[0].delta.content
                     if content:
-                        yield f"data: {json.dumps({
+                        data = json.dumps({
                             'id': f'chatcmpl-{int(time.time())}',
                             'object': 'chat.completion.chunk',
-                            'created': int(time.time())",
+                            'created': int(time.time()),
                             'model': model_name,
                             'choices': [{
                                 'delta': {'content': content},
                                 'index': 0,
                                 'finish_reason': None
                             }]
-                        })}\n\n"
+                        })
+                        yield f"data: {data}\n\n"
                 
                 yield "data: [DONE]\n\n"
 
