@@ -105,34 +105,22 @@ def chat_completions():
     
     # Create client and process request
     client = Client()
-    try:
-        response = client.chat.completions.create(
-            model=backend_model,
-            messages=messages,
-            web_search=False,
-            provider=PuterJS,
-            api_key="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0IjoiYXUiLCJ2IjoiMC4wLjAiLCJ1dSI6IkcwR0ZjOTdYVFFHcTZaSXJjQlRJaWc9PSIsImF1IjoiaWRnL2ZEMDdVTkdhSk5sNXpXUGZhUT09IiwicyI6InRGQ1NHNFRCVUZjRFFCc0UyTk5mSWc9PSIsImlhdCI6MTc0OTE1NDE4N30.yjewyBH0J9vq4ZIuptslW7kwCdN_PSSyW6VBTyE1TBQ"
-        )
-
-        # Return only the assistant's message content as plain text
-        return response.choices[0].message.content, 200, {'Content-Type': 'text/plain; charset=utf-8'}
-        
-    except Exception as e:
-        # Try to extract the assistant's message from the error, else return the error as plain text
-        error_message = "Internal server error"
-        try:
-            raw = e.args[0]
-            if isinstance(raw, dict):
-                message = raw.get("result", {}).get("message", {}).get("content")
-                if message:
-                    error_message = message
-                else:
-                    error_message = str(raw)
-            else:
-                error_message = str(e)
-        except Exception:
-            error_message = str(e)
-        return error_message, 500, {'Content-Type': 'text/plain; charset=utf-8'}
+    response = client.chat.completions.create(
+        model=backend_model,
+        messages=messages,
+        web_search=False,
+        provider=PuterJS,
+        api_key="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0IjoiYXUiLCJ2IjoiMC4wLjAiLCJ1dSI6IkcwR0ZjOTdYVFFHcTZaSXJjQlRJaWc9PSIsImF1IjoiaWRnL2ZEMDdVTkdhSk5sNXpXUGZhUT09IiwicyI6InRGQ1NHNFRCVUZjRFFCc0UyTk5mSWc9PSIsImlhdCI6MTc0OTE1NDE4N30.yjewyBH0J9vq4ZIuptslW7kwCdN_PSSyW6VBTyE1TBQ"
+    )
+    return jsonify({
+        "choices": [
+            {
+                "message": {
+                    "content": response.choices[0].message.content
+                }
+            }
+        ]
+    })
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
