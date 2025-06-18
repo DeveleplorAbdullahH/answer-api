@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 import uuid
 import time
 from g4f.client import Client
-from g4f.Provider import PuterJS
+from g4f.Provider import PuterJS, PollinationsImage
 
 app = Flask(__name__)
 
@@ -13,7 +13,7 @@ MODEL_MAPPING = {
     "botintel-coder": "openrouter:anthropic/claude-3.7-sonnet:thinking",
     "abuai-v3-latest": "openrouter:openai/chatgpt-4o-latest",
     "botintel-dr": "openrouter:perplexity/sonar-deep-research",
-    "botintel-v3-search": "openrouter:openai/gpt-4o-search-preview"
+    "botintel-v3-search": "openrouter:perplexity/sonar-pro"
 }
 
 # System prompts for each model
@@ -120,6 +120,24 @@ def chat_completions():
                 }
             }
         ]
+    })
+
+@app.route('/v1/images/generations', methods=['POST'])
+def image_generation():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    if not prompt:
+        return jsonify({"error": "Missing 'prompt' parameter"}), 400
+
+    client = Client()
+    response = client.images.generate(
+        model="gptimage",
+        prompt=prompt,
+        response_format="url",
+        provider=PollinationsImage
+    )
+    return jsonify({
+        "url": response.data[0].url
     })
 
 if __name__ == '__main__':
