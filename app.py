@@ -125,13 +125,20 @@ def chat_completions():
 @app.route('/v1/images/generations', methods=['POST'])
 def image_generation():
     data = request.get_json()
+    frontend_model = data.get('model', 'botintel-image')
     prompt = data.get('prompt')
     if not prompt:
         return jsonify({"error": "Missing 'prompt' parameter"}), 400
 
+    # Map frontend model to backend model
+    if frontend_model == 'botintel-image':
+        backend_model = 'gptimage'
+    else:
+        backend_model = frontend_model  # fallback, or you can restrict to only botintel-image
+
     client = Client()
     response = client.images.generate(
-        model="gptimage",
+        model=backend_model,
         prompt=prompt,
         response_format="url",
         provider=PollinationsImage
