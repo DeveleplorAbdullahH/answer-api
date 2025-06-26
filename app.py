@@ -1,8 +1,9 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response
 import uuid
 import time
 from g4f.client import Client
 from g4f.Provider import PuterJS, PollinationsImage
+import json
 
 app = Flask(__name__)
 
@@ -105,22 +106,28 @@ def chat_completions():
     
     # Create client and process request
     client = Client()
-    response = client.chat.completions.create(
-        model=backend_model,
-        messages=messages,
-        web_search=False,
-        provider=PuterJS,
-        api_key="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0IjoiYXUiLCJ2IjoiMC4wLjAiLCJ1dSI6IkcwR0ZjOTdYVFFHcTZaSXJjQlRJaWc9PSIsImF1IjoiaWRnL2ZEMDdVTkdhSk5sNXpXUGZhUT09IiwicyI6InRGQ1NHNFRCVUZjRFFCc0UyTk5mSWc9PSIsImlhdCI6MTc0OTE1NDE4N30.yjewyBH0J9vq4ZIuptslW7kwCdN_PSSyW6VBTyE1TBQ"
-    )
-    return jsonify({
-        "choices": [
-            {
-                "message": {
-                    "content": response.choices[0].message.content
+    def generate():
+        response = client.chat.completions.create(
+            model=backend_model,
+            messages=messages,
+            web_search=False,
+            provider=PuterJS,
+            api_key="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0IjoiYXUiLCJ2IjoiMC4wLjAiLCJ1dSI6InNubDBxWFdVUkhhc3dIbVhEY3pRbmc9PSIsImF1IjoiaWRnL2ZEMDdVTkdhSk5sNXpXUGZhUT09IiwicyI6ImFYbFdlN0dCOUxBN2dQbmkxZ3NaL1E9PSIsImlhdCI6MTc1MDk0MTc1MX0.lQHY_54EHrXJlNqJxQdDtvMnpoNkXJBeu9bb7tTtJpk",
+            stream=True
+        )
+        for chunk in response:
+            if hasattr(chunk.choices[0].delta, "content"):
+                data = {
+                    "choices": [
+                        {
+                            "delta": {"content": chunk.choices[0].delta.content},
+                            "index": 0,
+                            "finish_reason": None
+                        }
+                    ]
                 }
-            }
-        ]
-    })
+                yield f"data: {json.dumps(data)}\n\n"
+    return Response(generate(), mimetype='text/event-stream')
 
 @app.route('/v1/images/generations', methods=['POST'])
 def image_generation():
