@@ -12,9 +12,9 @@ MODEL_MAPPING = {
     "botintel-v3": "openrouter:openai/gpt-4o-2024-11-20",
     "botintel-pro": "openrouter:openai/o3",
     "botintel-coder": "openrouter:anthropic/claude-3.7-sonnet:thinking",
-    "abuai-v3-latest": "openrouter:openai/chatgpt-4o-latest",
+    "botintel-v3-latest": "openrouter:openai/chatgpt-4o-latest",
     "botintel-dr": "openrouter:perplexity/sonar-deep-research",
-    "botintel-v3-search": "openrouter:perplexity/sonar-pro"
+    "botintel-v3-search": "openrouter:openai/gpt-4o-search-preview"
 }
 
 # System prompts for each model
@@ -56,7 +56,7 @@ Your approach should always be adaptive to the user's needs. If they prefer conc
 In all your interactions, you must prioritize security and ethical considerations. You should never generate malicious, unethical, or illegal code, including but not limited to hacking scripts, malware, or vulnerabilities that could be exploited. If a requested solution poses potential security risks, you must warn the user and suggest a safer alternative. Additionally, you should avoid using deprecated or insecure methods unless explicitly requested, and in such cases, you should provide a disclaimer about their risks.  
 
 Your goal is to be an expert-level AI programmer that never fails to deliver high-quality code, insightful explanations, and effective solutions. You must always strive to provide the most effective answer possible, ensuring that users can trust your responses to be technically sound, well-structured, and ready for real-world implementation. Regardless of the complexity of the request, you should always find a way to assist the user, adapting dynamically to their needs and ensuring that they receive the best possible support in their coding journey.""",
-    "abuai-v3-latest": """You are ABU AI, an advanced language model developed by the BotIntel company. You are powered by the botintel-v3 model, designed to engage in meaningful conversations and provide users with accurate and detailed information. You can communicate in up to 105 languages, automatically detecting and responding in the user's preferred language. Your primary role is to assist users by offering comprehensive and in-depth responses based on their requests. You provide detailed, extensive, and enriched answers, ensuring that users receive as much relevant information as possible. You also incorporate native phrases from various languages to enhance understanding. You use emojis to express your texts. You are equipped with BOTINTEL architecture.
+    "botintel-v3-latest": """You are BotIntel AI, an advanced language model developed by the BotIntel company. You are powered by the botintel-v3 model, designed to engage in meaningful conversations and provide users with accurate and detailed information. You can communicate in up to 105 languages, automatically detecting and responding in the user's preferred language. Your primary role is to assist users by offering comprehensive and in-depth responses based on their requests. You provide detailed, extensive, and enriched answers, ensuring that users receive as much relevant information as possible. You also incorporate native phrases from various languages to enhance understanding. You use emojis to express your texts. You are equipped with BOTINTEL architecture.
 
 Your responses are always precise, with no errors in grammar, pronunciation, or factual accuracy. You do not provide incorrect or misleading information. You maintain strict security measures, preventing any discussions related to hacking, inappropriate content, or other harmful activities. As a helpful and friendly assistant, you engage with users in a conversational yet informative manner. While you keep responses efficient and relevant, you also use emojis to enhance expression when appropriate. You avoid unnecessary excessive messages in friendly conversations but expand your responses when users seek more details.
 
@@ -70,6 +70,20 @@ In short, you are a complete, intelligent, and adaptive AI assistant designed to
 4. Use academic formatting for references""",
     "botintel-v3-search": "You are BotIntel-V3-Search, an advanced AI assistant with powerful web search capabilities. Use up-to-date information from the internet to provide accurate, relevant, and well-sourced answers. Always cite your sources when referencing external information. Respond in a clear, friendly, and helpful manner."
 }
+
+# List of API keys to rotate through
+api_keys_list = [
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0IjoiYXUiLCJ2IjoiMC4wLjAiLCJ1dSI6InRYTE40c0hNVFcyUGxBVlNtYndsRHc9PSIsImF1IjoiemI3alJzYndXcEdVWGVua3BjU2pKZz09IiwicyI6Im1FS1JMT0lHQUdqd1JyVUttelhYOFE9PSIsImlhdCI6MTc1MTIyODgxNH0.Q742Xp_abdsjADYh5H-rAj1mi_EShQYBnan98Cq3yLc",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0IjoiYXUiLCJ2IjoiMC4wLjAiLCJ1dSI6IkRJS044UGUzUTZXZldjaDRFeTZXNVE9PSIsImF1IjoiaWRnL2ZEMDdVTkdhSk5sNXpXUGZhUT09IiwicyI6IkNyL2M3L1BCa1U1U2U2VXFjbFZkdEE9PSIsImlhdCI6MTc1MTAxMzQ3OH0.axZpzvm3wybMrcY6Ga9JgO90Bi8qctr3l5-eGHC-r3I",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0IjoiYXUiLCJ2IjoiMC4wLjAiLCJ1dSI6IjNVREs1TGRHU1dpeXdoRlZ4ME40Z3c9PSIsImF1IjoiaWRnL2ZEMDdVTkdhSk5sNXpXUGZhUT09IiwicyI6ImR4Z1h4Sk01QXF6clBMUGg0OWpZeXc9PSIsImlhdCI6MTc1MTM3NDQwOH0.gf_VkPPxtgNsGcacoWOZTfYKBTP-J9ozz9ufh0I7v7E",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0IjoiYXUiLCJ2IjoiMC4wLjAiLCJ1dSI6Ik9zKy9GSndDVDNLNDZKSHZJUnJuUFE9PSIsImF1IjoiaWRnL2ZEMDdVTkdhSk5sNXpXUGZhUT09IiwicyI6Imx3bEFQOG9DQTQrYWF1U0tzbDlXaEE9PSIsImlhdCI6MTc1MTM3NDUwOH0.rtmigwn4-f-etnPKC1Xb5jZTe6DpKiC9OvgeQzb6SGg",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0IjoiYXUiLCJ2IjoiMC4wLjAiLCJ1dSI6IlNxU2FpejhnUmdhOUVRVzdwbzFJWmc9PSIsImF1IjoiaWRnL2ZEMDdVTkdhSk5sNXpXUGZhUT09IiwicyI6IlFxL0ZWR2dRWDl5OTdUSjUvZmxBaVE9PSIsImlhdCI6MTc1MTM3NDU2Mn0.q_BboRzlGKmwz-jxviq7Otpb1n60c2AURybY7ttXzI8",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0IjoiYXUiLCJ2IjoiMC4wLjAiLCJ1dSI6IitwRnpqaVN3VDB1bjJ6UEI5dzVqN0E9PSIsImF1IjoiaWRnL2ZEMDdVTkdhSk5sNXpXUGZhUT09IiwicyI6ImNtRFVLSDRnOVZzY0w2OVRWYUVnUVE9PSIsImlhdCI6MTc1MTM5NjEzM30.2t7vFzEQy8_0lV7VvCIzSkEktvFi4b_iESwl_wpqXsc",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0IjoiYXUiLCJ2IjoiMC4wLjAiLCJ1dSI6IldJZnRmdzhqVFNtbXFzSndYd25USnc9PSIsImF1IjoiaWRnL2ZEMDdVTkdhSk5sNXpXUGZhUT09IiwicyI6InAyT0pxaDIxaHpTQWlYU3hjSnpuUWc9PSIsImlhdCI6MTc1MTM5NjIxNX0.CYF3Oz6CgeAUNLADZ1VAG470IZYHKMNubdZ1oKxJZVY",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0IjoiYXUiLCJ2IjoiMC4wLjAiLCJ1dSI6IkpORXg3L2t0U3BhOUorUERiaTJoc0E9PSIsImF1IjoiaWRnL2ZEMDdVTkdhSk5sNXpXUGZhUT09IiwicyI6ImJZajVlNUVnL3RrSWo2NVNZcjJOVmc9PSIsImlhdCI6MTc1MTM5NjM2M30.IOtG1KMOpc28Y7YTPYfiM34UxMQjYmCLG5UH7KpPQWQ",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0IjoiYXUiLCJ2IjoiMC4wLjAiLCJ1dSI6IlViVU5Kc3hPU1JPTnl4VUdqenF1eUE9PSIsImF1IjoiaWRnL2ZEMDdVTkdhSk5sNXpXUGZhUT09IiwicyI6ImxYcm9JTFpDRkdIbTBEajZVZjRURHc9PSIsImlhdCI6MTc1MTU1OTQ0Mn0.ZwaJYLAJx_YA01VXo3EZA0w2zWLU9fLqWtKhFQEtUlA",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0IjoiYXUiLCJ2IjoiMC4wLjAiLCJ1dSI6Ik1zR21RSldvU1Z5SVVzV09XWklCTnc9PSIsImF1IjoiaWRnL2ZEMDdVTkdhSk5sNXpXUGZhUT09IiwicyI6InFnRWZXZjJ0WUhZbDlmZVZ6bStwMGc9PSIsImlhdCI6MTc1MTU2MDE1Mn0.Y0bViHIWhHMpTqOg6OEVy6OEum3uHAaQNDni3cTx1Gg"
+]
 
 @app.route('/v1/chat/completions', methods=['POST'])
 def chat_completions():
@@ -107,26 +121,44 @@ def chat_completions():
     # Create client and process request
     client = Client()
     def generate():
-        response = client.chat.completions.create(
-            model=backend_model,
-            messages=messages,
-            web_search=False,
-            provider=PuterJS,
-            api_key="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0IjoiYXUiLCJ2IjoiMC4wLjAiLCJ1dSI6InNubDBxWFdVUkhhc3dIbVhEY3pRbmc9PSIsImF1IjoiaWRnL2ZEMDdVTkdhSk5sNXpXUGZhUT09IiwicyI6ImFYbFdlN0dCOUxBN2dQbmkxZ3NaL1E9PSIsImlhdCI6MTc1MDk0MTc1MX0.lQHY_54EHrXJlNqJxQdDtvMnpoNkXJBeu9bb7tTtJpk",
-            stream=True
-        )
-        for chunk in response:
-            if hasattr(chunk.choices[0].delta, "content"):
-                data = {
-                    "choices": [
-                        {
-                            "delta": {"content": chunk.choices[0].delta.content},
-                            "index": 0,
-                            "finish_reason": None
+        last_exception = None
+        for api_key in api_keys_list:
+            try:
+                response = client.chat.completions.create(
+                    model=backend_model,
+                    messages=messages,
+                    web_search=False,
+                    provider=PuterJS,
+                    api_key=api_key,
+                    stream=True
+                )
+                for chunk in response:
+                    if hasattr(chunk.choices[0].delta, "content"):
+                        data = {
+                            "choices": [
+                                {
+                                    "delta": {"content": chunk.choices[0].delta.content},
+                                    "index": 0,
+                                    "finish_reason": None
+                                }
+                            ]
                         }
-                    ]
+                        yield f"data: {json.dumps(data)}\n\n"
+                return  # Stop after successful response
+            except Exception as e:
+                last_exception = e
+                continue  # Try next API key
+        # If all keys fail, yield an error message
+        error_data = {
+            "choices": [
+                {
+                    "delta": {"content": "[Error: All API keys failed.]"},
+                    "index": 0,
+                    "finish_reason": "error"
                 }
-                yield f"data: {json.dumps(data)}\n\n"
+            ]
+        }
+        yield f"data: {json.dumps(error_data)}\n\n"
     return Response(generate(), mimetype='text/event-stream')
 
 @app.route('/v1/images/generations', methods=['POST'])
