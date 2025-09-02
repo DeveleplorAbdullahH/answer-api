@@ -2,17 +2,17 @@ from flask import Flask, request, jsonify, Response
 import uuid
 import time
 from g4f.client import Client
-from g4f.Provider import PuterJS, PollinationsImage
+from g4f.Provider import PuterJS
 import json
 
 app = Flask(__name__)
 
 # Model mapping configuration
 MODEL_MAPPING = {
-    "botintel-v3": "openrouter:openai/gpt-4o-2024-11-20",
+    "botintel-v4": "openrouter:openai/gpt-5",
     "botintel-pro": "openrouter:openai/o3",
-    "botintel-coder": "openrouter:anthropic/claude-3.7-sonnet:thinking",
-    "botintel-v3-latest": "openrouter:openai/chatgpt-4o-latest",
+    "botintel-coder": "claude-sonnet-4-latest",
+    "botintel-v3-latest": "openrouter:openai/gpt-5-chat",
     "botintel-dr": "openrouter:perplexity/sonar-deep-research",
     "botintel-v3-search": "openrouter:openai/gpt-4o-search-preview"
 }
