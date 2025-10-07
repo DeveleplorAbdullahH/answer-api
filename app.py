@@ -10,7 +10,7 @@ app = Flask(__name__)
 # Model mapping configuration
 MODEL_MAPPING = {
     "botintel-v4": "openrouter:openai/gpt-5",
-    "botintel-pro": "openrouter:openai/o3",
+    "botintel-pro": "openrouter:openai/gpt-5-pro",
     "botintel-coder": "claude-sonnet-4-latest",
     "botintel-v3-latest": "openrouter:openai/gpt-5-chat",
     "botintel-dr": "openrouter:perplexity/sonar-deep-research",
